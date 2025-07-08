@@ -6,7 +6,7 @@ import numpy as np
 import seaborn as sns
 import os
 
-st.title("Solar Panel Performance Analysis UI")
+st.title("Solar Panel Performance Analysis")
 
 DATA_FILE = 'df_all_seasons.pkl'
 
