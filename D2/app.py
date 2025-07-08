@@ -4,8 +4,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+import os
 
 st.title("Solar Panel Performance Analysis UI")
+
+DATA_FILE = 'df_all_seasons.pkl'
 
 # Step 1: Generate CSV
 if st.button("Generate CSV (Run gen.py)"):
@@ -15,8 +18,15 @@ if st.button("Generate CSV (Run gen.py)"):
     # Set a session state variable to indicate that the CSV has been generated
     st.session_state.csv_generated = True
 
-# Check if the CSV has been generated
-if 'csv_generated' not in st.session_state or not st.session_state.csv_generated:
+# Check if the data file exists
+file_exists = os.path.exists(DATA_FILE)
+
+# Update session state if file now exists
+if file_exists:
+    st.session_state.csv_generated = True
+
+# Only show analysis options if file exists
+if not file_exists:
     st.warning("Please generate the CSV file first to see the analysis options.")
 else:
     # Step 2: Choose Analysis
@@ -26,7 +36,7 @@ else:
     )
 
     if option == "Show Boxplot by Season":
-        df = pd.read_pickle('df_all_seasons.pkl')
+        df = pd.read_pickle(DATA_FILE)
         fig, ax = plt.subplots()
         df.boxplot(column='kwh', by='season', grid=False, figsize=(8,6), ax=ax)
         plt.title('Solar Panel Energy Output (kWh) by Season')
@@ -36,7 +46,7 @@ else:
         st.pyplot(fig)
 
     elif option == "Show Day-wise Bar Chart":
-        df = pd.read_pickle('df_all_seasons.pkl')
+        df = pd.read_pickle(DATA_FILE)
         fig, ax = plt.subplots(figsize=(14,6))
         ax.bar(df.index, df['kwh'], color='orange')
         plt.xlabel('Day Index')
@@ -47,7 +57,6 @@ else:
     elif option == "Linear Regression":
         result = subprocess.run(["python", "LinearRegression.py"], capture_output=True, text=True)
         st.text(result.stdout)
-        # Load and plot y_test vs y_pred
         y_test = np.load('y_test.npy')
         y_pred = np.load('y_pred.npy')
         fig, ax = plt.subplots()
@@ -61,7 +70,6 @@ else:
     elif option == "Logistic Regression":
         result = subprocess.run(["python", "LogisticRegression.py"], capture_output=True, text=True)
         st.text(result.stdout)
-        # Load and plot confusion matrix
         y_test = np.load('y_test_2.npy')
         y_pred = np.load('y_pred_2.npy')
         class_labels = np.load('class_labels.npy', allow_pickle=True)
