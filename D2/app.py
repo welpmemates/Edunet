@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import os
+import sys
 
 st.title("Solar Panel Performance Analysis")
 
@@ -12,11 +13,15 @@ DATA_FILE = 'df_all_seasons.pkl'
 
 # Step 1: Generate CSV
 if st.button("Generate CSV (Run gen.py)"):
-    result = subprocess.run(["python", "gen.py"], capture_output=True, text=True)
-    st.success("CSV generated!")
-    st.text(result.stdout)
-    # Set a session state variable to indicate that the CSV has been generated
-    st.session_state.csv_generated = True
+    result = subprocess.run([sys.executable, "gen.py"], capture_output=True, text=True)
+
+    if result.returncode != 0:
+        st.error(f"Error: {result.stderr}")
+    else:
+        st.success("CSV generated!")
+        st.text(result.stdout)
+        # Set a session state variable to indicate that the CSV has been generated
+        st.session_state.csv_generated = True
 
 # Check if the data file exists
 file_exists = os.path.exists(DATA_FILE)
@@ -55,7 +60,7 @@ else:
         st.pyplot(fig)
 
     elif option == "Linear Regression":
-        result = subprocess.run(["python", "LinearRegression.py"], capture_output=True, text=True)
+        result = subprocess.run([sys.executable, "LinearRegression.py"], capture_output=True, text=True)
         st.text(result.stdout)
         y_test = np.load('y_test.npy')
         y_pred = np.load('y_pred.npy')
@@ -68,7 +73,7 @@ else:
         st.pyplot(fig)
 
     elif option == "Logistic Regression":
-        result = subprocess.run(["python", "LogisticRegression.py"], capture_output=True, text=True)
+        result = subprocess.run([sys.executable, "LogisticRegression.py"], capture_output=True, text=True)
         st.text(result.stdout)
         y_test = np.load('y_test_2.npy')
         y_pred = np.load('y_pred_2.npy')
