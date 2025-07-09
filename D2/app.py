@@ -9,7 +9,7 @@ import sys
 
 st.title("Solar Panel Performance Analysis")
 
-DATA_FILE = 'D2/df_all_seasons.pkl'
+DATA_FILE = 'df_all_seasons.pkl'
 
 # Step 1: Generate CSV
 if st.button("Generate CSV (Run gen.py)"):
