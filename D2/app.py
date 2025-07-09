@@ -9,11 +9,11 @@ import sys
 
 st.title("Solar Panel Performance Analysis")
 
-DATA_FILE = 'df_all_seasons.pkl'
+DATA_FILE = 'D2/df_all_seasons.pkl'
 
 # Step 1: Generate CSV
 if st.button("Generate CSV (Run gen.py)"):
-    result = subprocess.run([sys.executable, "gen.py"], capture_output=True, text=True)
+    result = subprocess.run([sys.executable, "D2/gen.py"], capture_output=True, text=True)
 
     if result.returncode != 0:
         st.error(f"Error: {result.stderr}")
@@ -60,7 +60,7 @@ else:
         st.pyplot(fig)
 
     elif option == "Linear Regression":
-        result = subprocess.run([sys.executable, "LinearRegression.py"], capture_output=True, text=True)
+        result = subprocess.run([sys.executable, "D2/LinearRegression.py"], capture_output=True, text=True)
         st.text(result.stdout)
         y_test = np.load('y_test.npy')
         y_pred = np.load('y_pred.npy')
@@ -73,7 +73,7 @@ else:
         st.pyplot(fig)
 
     elif option == "Logistic Regression":
-        result = subprocess.run([sys.executable, "LogisticRegression.py"], capture_output=True, text=True)
+        result = subprocess.run([sys.executable, "D2/LogisticRegression.py"], capture_output=True, text=True)
         st.text(result.stdout)
         y_test = np.load('y_test_2.npy')
         y_pred = np.load('y_pred_2.npy')
