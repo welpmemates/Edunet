@@ -1,0 +1,6 @@
+streamlit==1.46.1
+transformers==4.53.1
+torch==2.7.1
+networkx==3.5
+matplotlib==3.10.3
+diffusers==0.34.0
