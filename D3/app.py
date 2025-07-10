@@ -285,7 +285,7 @@ st.markdown("""
 # --- Load Model ---
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model("Modelenv.v1.h5")
+    return tf.keras.models.load_model("D3/Modelenv.v1.h5")
 
 # --- Class Names with Emojis ---
 class_names = ['Cloudy', 'Desert', 'Green Area', 'Water']
