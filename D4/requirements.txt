@@ -4,3 +4,6 @@ torch==2.7.1
 networkx==3.5
 matplotlib==3.10.3
 diffusers==0.34.0
+plotly==6.2.0
+numpy==1.26.4
+Pillow==11.1.0
